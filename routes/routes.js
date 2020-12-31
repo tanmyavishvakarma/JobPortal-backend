@@ -3,7 +3,7 @@ const express=require('express')
 const router = express.Router()
 const registertemplatecopy=require('../models/registermodels')
 
-router.post('./register',(request,response)=>{
+router.post('/register',async (request,response)=>{
     const registeruser=new registertemplatecopy({
         name:request.body.name,
         email:request.body.email,
@@ -17,6 +17,6 @@ router.post('./register',(request,response)=>{
     .catch(error=>{
         response.json(error)
     })
-})
+});
 
 module.exports=router
