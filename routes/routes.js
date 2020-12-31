@@ -6,8 +6,8 @@ const bcryt=require('bcrypt')
 
 router.post('/register',async (request,response)=>{
 
-    const saltPassword=await  bcryt.genSalt(10)
-    const securePassword=await bcryt.hash(request.body.password,saltPassword)
+    const salt=await  bcryt.genSalt(10)
+    const securePassword=await bcryt.hash(request.body.password,salt)
     const registeruser=new registertemplatecopy({
         name:request.body.name,
         email:request.body.email,
