@@ -39,7 +39,8 @@ router.post('/postjob',async(request,response)=>{
     const postjob=new postjobtemplatecopy({
         jobtitle:request.body.jobtitle,
         company:request.body.company,
-        officelocation:request.body.officelocation
+        officelocation:request.body.officelocation,
+        jobtype:request.body.jobtype
 
     })
     postjob.save()

@@ -13,6 +13,10 @@ const postjobtemplate= new mongoose.Schema({
         type:String,
         required:true
     },
+    jobtype:{
+        type:String,
+        required:true
+    },
     date:{
         type:Date,
         default:Date.now
