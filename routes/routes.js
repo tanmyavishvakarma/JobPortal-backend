@@ -1,17 +1,24 @@
 const { request, response } = require('express')
 const express=require('express')
 const router = express.Router()
-const registertemplatecopy=require('../models/registermodels')
+const registertemplatecopy=require('../models/user')
 const bcryt=require('bcrypt')
 const jwt =require('jsonwebtoken')
 const postjobtemplatecopy=require('../models/postjobmodels')
+const passport=require("passport")
+const cookieparser=require('cookie-parser')
+const passportLocal=require("passport-local").Strategy;
+const bodyParser=require("body-parser")
+
+
+require('../passport-config')(passport);
 
 router.post('/register',async (request,response)=>{
 
     const salt=await  bcryt.genSalt(10)
     const securePassword=await bcryt.hash(request.body.password,salt)
     const registeruser=new registertemplatecopy({
-        name:request.body.name,
+        username:request.body.username,
         email:request.body.email,
         password:securePassword
 
@@ -25,17 +32,21 @@ router.post('/register',async (request,response)=>{
     })
 });
 
-router.post('/login',async(request,response)=>{
-    const registeruser=await registertemplatecopy.findOne({email:request.body.email});
-    if(!registeruser) return response.status(400).send('Invalid Email or Password');
-    const validatepass=await bcryt.compare(request.body.password,registeruser.password);
-    if(!validatepass) return response.status(400).send('Invalid Email or Password');
+router.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) throw err;
+      if (!user) res.send("No User Exists");
+      else {
+        req.logIn(user, (err) => {
+          if (err) throw err;
+          res.send("Successfully Authenticated");
+          console.log(req.user);
+        });
+      }
+    })(req, res, next);
+  });
 
-    const token=jwt.sign({_id: registeruser._id},process.env.TOKEN_SECRET);
-    response.header('auth-token',token).send(token)
-});
-
-router.post('/postjob',async(request,response)=>{
+router.post('/postjob',async(request,response,next)=>{
     const postjob=new postjobtemplatecopy({
         jobtitle:request.body.jobtitle,
         company:request.body.company,

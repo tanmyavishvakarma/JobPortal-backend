@@ -1,6 +1,10 @@
 const mongoose=require('mongoose')
 
 const postjobtemplate= new mongoose.Schema({
+    email:{
+        type:String,
+        required:true
+    },
     jobtitle:{
         type:String,
         required:true

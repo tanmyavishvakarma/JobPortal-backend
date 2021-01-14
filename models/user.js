@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 
-const registertemplate = new mongoose.Schema({
-    name:{
+const user = new mongoose.Schema({
+    username:{
         type:String,
         required:true
     },
+    
     email:{
         type:String,
         required:true
@@ -19,4 +20,4 @@ const registertemplate = new mongoose.Schema({
     }
 })
 
-module.exports=mongoose.model('mytable',registertemplate)
+module.exports=mongoose.model('registereduser',user)
