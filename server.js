@@ -30,19 +30,12 @@ app.use(session({
 }))
 
 app.use(cookieparser("secret"))
-
-
-
 app.use(passport.initialize());
 app.use(passport.session());
 require('./passport-config')(passport);
 app.use(express.json())
-app.use(cors())
 app.use('/api',routes)
 
-
-
-
-app.listen(4002,()=>console.log("server running on port 4000"))
+app.listen(4002,()=>console.log("server running on port 4002"))
 
 module.exports = app;

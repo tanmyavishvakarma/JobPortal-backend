@@ -14,7 +14,7 @@ const bodyParser=require("body-parser")
 require('../passport-config')(passport);
 
 router.post('/register',async (request,response)=>{
-
+ 
     const salt=await  bcryt.genSalt(10)
     const securePassword=await bcryt.hash(request.body.password,salt)
     const registeruser=new registertemplatecopy({
@@ -35,28 +35,33 @@ router.post('/register',async (request,response)=>{
 router.post("/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) throw err;
-      if (!user) res.send("No User Exists");
+      if (!user) res.send("No User Exists") ;
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          res.send("Successfully Authenticated");
-          console.log(req.user);
+          res.status(200).send({login:"Successfully Authenticated",publisher:req.user.username});
+          const un=req.user.username
+          console.log(un)
+
         });
       }
     })(req, res, next);
   });
 
 router.post('/postjob',async(request,response,next)=>{
+    
     const postjob=new postjobtemplatecopy({
         jobtitle:request.body.jobtitle,
         company:request.body.company,
         officelocation:request.body.officelocation,
-        jobtype:request.body.jobtype
-
+        jobtype:request.body.jobtype,
+        publisher:request.body.publisher,
+     
     })
     postjob.save()
     .then(data=>{
         response.json(data)
+
     })
     .catch(error=>{
         response.json(error)
