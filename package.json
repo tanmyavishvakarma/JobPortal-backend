@@ -20,6 +20,7 @@
     "express-openid-connect": "^2.2.0",
     "express-session": "^1.17.1",
     "jsonwebtoken": "^8.5.1",
+    "local-storage": "^2.0.0",
     "mongoose": "^5.11.8",
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
