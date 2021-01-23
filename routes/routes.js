@@ -68,6 +68,13 @@ router.post('/postjob',async(request,response,next)=>{
     })
 });
 
+router.get('/findjob',async(req,res)=>{
+    postjobtemplatecopy.find()
+        .then(posts=>{
+            res.json(posts)  
+            res.send(posts)
+        })
 
+})
 
 module.exports=router
